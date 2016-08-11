@@ -109,7 +109,7 @@ def emitBolt(tup, stream=None, anchors = [], directTask=None):
     m = {"command": "emit"}
     if stream is not None:
         m["stream"] = stream
-    m["anchors"] = map(lambda a: a.id, anchors)
+    m["anchors"] = [ a.id for a in anchors ]
     if directTask is not None:
         m["task"] = directTask
     m["tuple"] = tup
@@ -197,7 +197,7 @@ class Bolt(object):
                 else:
                     self.process(tup)
         except Exception as e:
-            reportError(traceback.format_exc(e))
+            reportError(traceback.format_exc())
 
 class BasicBolt(object):
     def initialize(self, stormconf, context):
@@ -223,10 +223,10 @@ class BasicBolt(object):
                         self.process(tup)
                         ack(tup)
                     except Exception as e:
-                        reportError(traceback.format_exc(e))
+                        reportError(traceback.format_exc())
                         fail(tup)
         except Exception as e:
-            reportError(traceback.format_exc(e))
+            reportError(traceback.format_exc())
 
 class Spout(object):
     def initialize(self, conf, context):
@@ -257,4 +257,4 @@ class Spout(object):
                     self.fail(msg["id"])
                 sync()
         except Exception as e:
-            reportError(traceback.format_exc(e))
+            reportError(traceback.format_exc())
